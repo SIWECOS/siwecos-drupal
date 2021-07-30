@@ -1,0 +1,28 @@
+{
+    "name": "drupal/siwecos",
+    "type": "drupal-module",
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "npm-asset/jquery-circle-progress",
+                "version": "1.2.2",
+                "type": "drupal-library",
+                "dist": {
+                    "url": "https://github.com/kottenator/jquery-circle-progress/archive/refs/tags/1.2.2.tar.gz",
+                    "type": "tar"
+                }
+            }
+        }
+    ],
+    "require": {
+        "composer/installers": "^1.11"
+    },
+    "extra": {
+        "installer-paths": {
+            "web/libraries/jquery-circle-progress": [
+                "npm-asset/jquery-circle-progress"
+            ]
+        }
+    }
+}
