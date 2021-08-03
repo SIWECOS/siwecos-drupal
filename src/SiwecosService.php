@@ -468,7 +468,7 @@ class SiwecosService {
     try {
       $request = new Request(
         'GET',
-        $this->apiUrl . '/scan/result?domain=' . $this->domain,
+        $this->apiUrl . '/scan/result/en?domain=' . $this->domain,
         [
           'Accept' => 'application/json',
           'Content-Type' => 'application/json;charset=UTF-8',
