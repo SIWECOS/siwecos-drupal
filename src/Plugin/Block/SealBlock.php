@@ -4,6 +4,7 @@ namespace Drupal\siwecos\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -12,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *
  * @Block(
  *   id = "siwecos_seal",
- *   admin_label = @Translation("Siwecos Seal"),
+ *   admin_label = @Translation("Siwecos seal"),
  *   category = @Translation("Siwecos")
  * )
  */
@@ -60,12 +61,47 @@ class SealBlock extends BlockBase implements ContainerFactoryPluginInterface {
   /**
    * {@inheritdoc}
    */
+  public function defaultConfiguration() {
+    return [
+      'date_format' => $this->t('Date format'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form['date_format'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Date format'),
+      '#default_value' => $this->configuration['date_format'],
+      '#options' => [
+        'd.m.y' => $this->t('British english format (d.m.y)'),
+        'y-m-d' => $this->t('ISO-8601 format (y-m-d)'),
+      ],
+    ];
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['date_format'] = $form_state->getValue('date_format');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function build() {
     $build['content'] = [
       '#type' => 'inline_template',
-      '#template' => '<a href="https://siwecos.de/scanned-by-siwecos/?data-siwecos={{ domain }}"><svg width="150" height="58" id="siwecos-seal" data-format="d.m.y"/></a>',
+      '#template' => '<a href="https://siwecos.de/scanned-by-siwecos/?data-siwecos={{ domain }}"><svg width="{{ width }}" height="{{ height }}" id="siwecos-seal" data-format="{{ date_format }}"/></a>',
       '#context' => [
         'domain' => $this->configFactory->get('siwecos.settings')->get('domain'),
+        'date_format' => $this->configFactory->get('siwecos.settings')->get('domain'),
+        'height' => 150,
+        'width' => 58,
       ],
       '#attached' => [
         'library' => [

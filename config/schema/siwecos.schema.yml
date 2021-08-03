@@ -3,19 +3,33 @@ siwecos.settings:
   mapping:
     api_url:
       type: uri
-      label: 'API Url'
+      label: 'API URL'
     api_token:
       type: string
-      label: 'API Token'
+      label: 'API token'
     domain:
       type: uri
       label: 'Domain'
     domain_token:
       type: string
-      label: 'Domain Token'
+      label: 'Domain token'
     email:
       type: mail
       label: 'Email'
     password:
       type: string
       label: 'Password'
+
+block.settings.siwecos_seal:
+  type: block_settings
+  label: 'Siwecos seal'
+  mapping:
+    date_format:
+      type: string
+      label: Date format
+    height:
+      type: integer
+      label: Height
+    width:
+      type: integer
+      label: Width
